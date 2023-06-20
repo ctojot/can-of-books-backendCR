@@ -15,6 +15,9 @@ const mongoose = require('mongoose');
 // MIDLDLEWARE
 app.use(cors());
 
+// DON'T FORGET THIS
+app.use(express.json());
+
 // DEFINE PORT VALIDATE .ENV IS WORKING
 const PORT = process.env.PORT || 3002;
 
@@ -47,6 +50,23 @@ async function getBooks(request, response, next){
     next(error);
   }
 }
+
+
+// END POINT TO ADD BOOK TO DB
+
+app.post('/books', addBook);
+
+async function addBook(request, response, next) {
+  console.log(request.body)
+  try {
+    let createdBook = await Books.create(request.body);
+
+    response.status(200).send(createdBook);
+  } catch (error) {
+    next(error);
+  }
+}
+
 
 app.get('*', (request, repsone) => {
   response.status(404).send('Not available');
