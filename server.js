@@ -5,6 +5,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const Book = require('./models/books');
 
 // require in the mongoose library
 const mongoose = require('mongoose');
@@ -36,7 +37,7 @@ app.get('/books', getBooks);
 
 async function getBooks(request, response, next){
   try {
-    let allBooks = await getBooks.find({});
+    let allBooks = await Book.find({});
     response.status(200).send(allBooks);
   } catch (error) {
     next(error);
