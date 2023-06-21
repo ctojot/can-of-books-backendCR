@@ -67,6 +67,20 @@ async function addBook(request, response, next) {
   }
 }
 
+app.delete('/books/:bookID', deleteBook);
+
+async function deleteBook (request, response, next) {
+  console.log(request.params);
+  try {
+    let id = request.params.bookID;
+
+    await Books.findByIdAndDelete(id);
+
+    response.status(200).send('Book was delete from DB');
+  } catch (error) {
+    next(error)
+  }
+}
 
 app.get('*', (request, repsone) => {
   response.status(404).send('Not available');
