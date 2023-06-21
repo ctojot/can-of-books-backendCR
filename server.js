@@ -82,6 +82,27 @@ async function deleteBook (request, response, next) {
   }
 }
 
+//ENDPOINT TO UPDATE A BOOK
+
+app.put('/books/:bookID', updateBook);
+
+async function updateBook(request, response,next){
+  try {
+    
+    let id = request.params.bookID;
+    let data = request.body
+    //Need 3 arguments for Model
+    let updatedBook = await Books.findByIdAndUpdate(id, data, {new:true, overwrite:true});
+
+
+
+    response.status(200).send(updatedBook)
+
+  } catch (error) {
+    next(error);
+  }
+}
+
 app.get('*', (request, repsone) => {
   response.status(404).send('Not available');
 });
